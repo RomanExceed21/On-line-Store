@@ -22,7 +22,7 @@ export class User {
 	age: number;
 
 	@Column()
-	birhdayDate: string;
+	birhdayDate: string; 
 
 	@Column()
 	role_id: number;  // fk roles id

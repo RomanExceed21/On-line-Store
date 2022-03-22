@@ -10,6 +10,9 @@
 	"entities": ["dist/**/*.entity{ .ts,.js}"],
 	"synchronize": false,
 	"migrations": ["dist/migrations/*{.ts,.js}"],
+	"cli": {
+		"migrationsDir": "src/migrations"
+	},
 	"migrationsTableName": "migrations_typeorm",
 	"migrationsRun": true
 	}
