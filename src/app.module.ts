@@ -7,7 +7,7 @@ import { AppService } from './app.service';
 @Module({
   imports: [
     ConfigModule.forRoot({
-    envFilePath: '.env'
+      envFilePath: '.env',
     }),
     TypeOrmModule.forRoot({
       name: 'default',
@@ -17,16 +17,16 @@ import { AppService } from './app.service';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      entities: ["dist/**/*.entity{ .ts,.js}"],
+      entities: ['dist/**/*.entity{ .ts,.js}'],
       synchronize: false,
-      migrations: ["dist/migrations/*{.ts,.js}"],
+      migrations: ['dist/migrations/*{.ts,.js}'],
       cli: {
         migrationsDir: 'src/migrations',
       },
       migrationsTableName: 'migrations_typeorm',
-      migrationsRun: false
-    })
-],
+      migrationsRun: false,
+    }),
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

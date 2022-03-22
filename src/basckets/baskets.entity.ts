@@ -1,11 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-
+import { Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Baskets {
-	@PrimaryGeneratedColumn()
-	user_id: number; // FK userId 
+  @PrimaryGeneratedColumn()
+  user_id: number; // FK userId
 
-	@PrimaryGeneratedColumn()
-	product_id: number; // FK productId
+  @PrimaryGeneratedColumn()
+  product_id: number; // FK productId
 }
