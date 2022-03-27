@@ -12,7 +12,7 @@ export class userMigration1647879443874 implements MigrationInterface {
     );
     await queryRunner.query(
       `CREATE TABLE "categories" (
-        "id" INT NOT NULL PRIMARY KEY, 
+        "id" SERIAL NOT NULL PRIMARY KEY, 
         "categoriesName" VARCHAR(50) NOT NULL
       )`,
     );
@@ -28,14 +28,14 @@ export class userMigration1647879443874 implements MigrationInterface {
     );
     await queryRunner.query(
       `CREATE TABLE "users" (
-        "id" INT NOT NULL PRIMARY KEY, 
+        "id" SERIAL NOT NULL PRIMARY KEY, 
         "firstName" VARCHAR(50) NOT NULL, 
         "lastName" VARCHAR(50) NOT NULL, 
-        "email" VARCHAR(50) NOT NULL, 
-        "hashedPassword" VARCHAR NOT NULL, 
+        "email" VARCHAR(50) UNIQUE NOT NULL, 
+        "password" VARCHAR NOT NULL, 
         "age" INT NOT NULL, 
         "birhdayDate" DATE NOT NULL, 
-        "role_id" INT REFERENCES "roles"("id") NOT NULL
+        "role_id" INT REFERENCES "roles"("id") NOT NULL DEFAULT 1
       )`,
     );
     await queryRunner.query(
@@ -45,13 +45,16 @@ export class userMigration1647879443874 implements MigrationInterface {
         "product_id" INT NOT NULL REFERENCES "products"("id")
       )`,
     );
+    await queryRunner.query(`INSERT INTO "roles" VALUES (1, 'superAdmin')`);
+    await queryRunner.query(`INSERT INTO "roles" VALUES (2, 'admin')`);
+    await queryRunner.query(`INSERT INTO "roles" VALUES (3, 'buyer')`);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`DROP TABLE "baskets"`);
+    await queryRunner.query(`DROP TABLE "users"`);
     await queryRunner.query(`DROP TABLE "roles"`);
-    await queryRunner.query(`DROP TABLE "user"`);
     await queryRunner.query(`DROP TABLE "products"`);
     await queryRunner.query(`DROP TABLE "categories"`);
-    await queryRunner.query(`DROP TABLE "baskets"`);
   }
 }
