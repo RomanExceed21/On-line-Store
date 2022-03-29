@@ -12,8 +12,8 @@ export class ProductsService {
 
 	async create(dto: createProductDto) {
 		await this.pgClient.query
-			(`INSERT INTO "products" VALUES ($1, $2, $3, $4, $5, $6)`, 
-			[dto.id, dto.name, dto.category_id, dto.description, dto.imageUrl, dto.price])
+			(`INSERT INTO "products" ("name", "category_id", "description", "imageUrl", "price") VALUES ($1, $2, $3, $4, $5)`, 
+			[dto.name, dto.category_id, dto.description, dto.imageUrl, dto.price])
 		return this.pgClient.row('SELECT * FROM "products"')
 	}
 

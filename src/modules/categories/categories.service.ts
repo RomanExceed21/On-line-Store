@@ -11,8 +11,8 @@ export class CategoriesService{
 	}
 
 	async create(dto: CreateCategoriesDto) {
-		await this.pgClient.query(`INSERT INTO "categories" VALUES ($1, $2)`,
-			[dto.id, dto.categoriesName]
+		await this.pgClient.query(`INSERT INTO categories ("categoriesName") VALUES ($1)`,
+			[dto.categoriesName]
 		)
 		return this.pgClient.row('SELECT * FROM "categories"')
 	}

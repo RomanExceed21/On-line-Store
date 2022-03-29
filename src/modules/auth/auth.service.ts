@@ -35,8 +35,8 @@ export class AuthService {
 		}
 		const hashPassword = await bcrypt.hash(dto.password, 10);
 		await this.pgClient.query(`
-			INSERT INTO "users" values ($1, $2, $3, $4, $5, $6, $7)`,
-			[dto.id, dto.email, hashPassword, dto.firstName, dto.lastName, dto.birhdayDate, dto.age]
+			INSERT INTO "users" ("email", "password", "firstName", "lastName", "birhdayDate", "age") values ($1, $2, $3, $4, $5, $6)`,
+			[dto.email, hashPassword, dto.firstName, dto.lastName, dto.birhdayDate, dto.age]
 		)
 		const user = await this.pgClient.row(`SELECT * FROM "users" WHERE "email" = '${dto.email}'`)
 		const payload = {id: user[0].id, email: user[0].email, role: user[0].role_id};

@@ -6,7 +6,7 @@ export class userMigration1647879443874 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
       `CREATE TABLE "roles" (
-        "id" INT NOT NULL PRIMARY KEY, 
+        "id" SERIAL PRIMARY KEY, 
         "roleName" VARCHAR(50) NOT NULL
       )`,
     );
@@ -18,7 +18,7 @@ export class userMigration1647879443874 implements MigrationInterface {
     );
     await queryRunner.query(
       `CREATE TABLE "products" (
-        "id" SERIAL NOT NULL PRIMARY KEY, 
+        "id" SERIAL PRIMARY KEY, 
         "name" VARCHAR(50) NOT NULL, 
         "category_id" INT NOT NULL REFERENCES "categories"("id"),
         "description" VARCHAR NOT NULL, 
@@ -28,7 +28,7 @@ export class userMigration1647879443874 implements MigrationInterface {
     );
     await queryRunner.query(
       `CREATE TABLE "users" (
-        "id" SERIAL NOT NULL PRIMARY KEY, 
+        "id" SERIAL PRIMARY KEY, 
         "email" VARCHAR(50) UNIQUE NOT NULL, 
         "password" VARCHAR NOT NULL, 
         "firstName" VARCHAR(50) NOT NULL, 
@@ -40,7 +40,7 @@ export class userMigration1647879443874 implements MigrationInterface {
     );
     await queryRunner.query(
       `CREATE TABLE "baskets" (
-        "id" INT NOT NULL PRIMARY KEY, 
+        "id" SERIAL PRIMARY KEY, 
         "user_id" INT NOT NULL REFERENCES "users"("id"), 
         "product_id" INT NOT NULL REFERENCES "products"("id")
       )`,
@@ -48,6 +48,12 @@ export class userMigration1647879443874 implements MigrationInterface {
     await queryRunner.query(`INSERT INTO "roles" VALUES (1, 'superAdmin')`);
     await queryRunner.query(`INSERT INTO "roles" VALUES (2, 'admin')`);
     await queryRunner.query(`INSERT INTO "roles" VALUES (3, 'buyer')`);
+
+    await queryRunner.query(`INSERT INTO "categories" ("categoriesName") VALUES ('Processors')`);
+    await queryRunner.query(`INSERT INTO "categories" ("categoriesName") VALUES ('Videocards')`);
+    await queryRunner.query(`INSERT INTO "categories" ("categoriesName") VALUES ('Mainboards')`);
+    await queryRunner.query(`INSERT INTO "categories" ("categoriesName") VALUES ('HDD')`);
+
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
