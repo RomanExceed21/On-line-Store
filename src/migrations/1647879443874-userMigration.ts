@@ -12,13 +12,13 @@ export class userMigration1647879443874 implements MigrationInterface {
     );
     await queryRunner.query(
       `CREATE TABLE "categories" (
-        "id" SERIAL NOT NULL PRIMARY KEY, 
+        "id" SERIAL PRIMARY KEY, 
         "categoriesName" VARCHAR(50) NOT NULL
       )`,
     );
     await queryRunner.query(
       `CREATE TABLE "products" (
-        "id" INT NOT NULL PRIMARY KEY, 
+        "id" SERIAL NOT NULL PRIMARY KEY, 
         "name" VARCHAR(50) NOT NULL, 
         "category_id" INT NOT NULL REFERENCES "categories"("id"),
         "description" VARCHAR NOT NULL, 
@@ -29,13 +29,13 @@ export class userMigration1647879443874 implements MigrationInterface {
     await queryRunner.query(
       `CREATE TABLE "users" (
         "id" SERIAL NOT NULL PRIMARY KEY, 
-        "firstName" VARCHAR(50) NOT NULL, 
-        "lastName" VARCHAR(50) NOT NULL, 
         "email" VARCHAR(50) UNIQUE NOT NULL, 
         "password" VARCHAR NOT NULL, 
-        "age" INT NOT NULL, 
+        "firstName" VARCHAR(50) NOT NULL, 
+        "lastName" VARCHAR(50) NOT NULL, 
         "birhdayDate" DATE NOT NULL, 
-        "role_id" INT REFERENCES "roles"("id") NOT NULL DEFAULT 1
+        "age" INT NOT NULL, 
+        "role_id" INT REFERENCES "roles"("id") NOT NULL DEFAULT 3
       )`,
     );
     await queryRunner.query(

@@ -1,3 +1,5 @@
+import { AuthModule } from './modules/auth/auth.module';
+import { UsersModule } from './modules/users/users.module';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
@@ -14,7 +16,9 @@ import { ProductsModule } from './modules/products/products.module';
     }),
     DbModule,
     ProductsModule,
-    CategoriesModule
+    CategoriesModule, 
+    UsersModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService],
