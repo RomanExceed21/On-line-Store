@@ -11,7 +11,12 @@ export class ProductsController {
 		return this.productsService.allProducts()
 	}
 
-	@Post() 
+	@Post('/oneProduct')
+	oneProduct(@Query() productDto: createProductDto) {
+		return this.productsService.oneProduct(productDto)
+	}
+
+	@Post('/create') 
 	create(@Body() productDto: createProductDto) {
 		return this.productsService.create(productDto)
 	}
