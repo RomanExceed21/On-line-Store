@@ -4,7 +4,6 @@ import { Global, Module } from '@nestjs/common';
 
 @Global()
 @Module({
-  controllers: [],
   providers: [PG_CONNECTOR_FACTORY],
   exports: [PgClient]
 })

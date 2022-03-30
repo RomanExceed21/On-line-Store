@@ -4,23 +4,25 @@ export class userMigration1647879443874 implements MigrationInterface {
   name = 'userMigration1647879443874';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`);
+
     await queryRunner.query(
       `CREATE TABLE "roles" (
-        "id" SERIAL PRIMARY KEY, 
+        "id" UUID NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(), 
         "roleName" VARCHAR(50) NOT NULL
       )`,
     );
     await queryRunner.query(
       `CREATE TABLE "categories" (
-        "id" SERIAL PRIMARY KEY, 
+        "id" UUID NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(), 
         "categoriesName" VARCHAR(50) NOT NULL
       )`,
     );
     await queryRunner.query(
       `CREATE TABLE "products" (
-        "id" SERIAL PRIMARY KEY, 
+        "id" UUID NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(), 
         "name" VARCHAR(50) NOT NULL, 
-        "category_id" INT NOT NULL REFERENCES "categories"("id"),
+        "category_id" UUID NOT NULL REFERENCES "categories"("id"),
         "description" VARCHAR NOT NULL, 
         "imageUrl" VARCHAR NOT NULL, 
         "price" INT NOT NULL
@@ -28,32 +30,23 @@ export class userMigration1647879443874 implements MigrationInterface {
     );
     await queryRunner.query(
       `CREATE TABLE "users" (
-        "id" SERIAL PRIMARY KEY, 
+        "id" UUID NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(), 
         "email" VARCHAR(50) UNIQUE NOT NULL, 
         "password" VARCHAR NOT NULL, 
         "firstName" VARCHAR(50) NOT NULL, 
         "lastName" VARCHAR(50) NOT NULL, 
         "birhdayDate" DATE NOT NULL, 
         "age" INT NOT NULL, 
-        "role_id" INT REFERENCES "roles"("id") NOT NULL DEFAULT 3
+        "role_id" UUID NOT NULL REFERENCES "roles"("id") NOT NULL
       )`,
     );
     await queryRunner.query(
       `CREATE TABLE "baskets" (
-        "id" SERIAL PRIMARY KEY, 
-        "user_id" INT NOT NULL REFERENCES "users"("id"), 
-        "product_id" INT NOT NULL REFERENCES "products"("id")
+        "id" UUID NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(), 
+        "user_id" UUID NOT NULL REFERENCES "users"("id"), 
+        "product_id" UUID NOT NULL REFERENCES "products"("id")
       )`,
     );
-    await queryRunner.query(`INSERT INTO "roles" VALUES (1, 'superAdmin')`);
-    await queryRunner.query(`INSERT INTO "roles" VALUES (2, 'admin')`);
-    await queryRunner.query(`INSERT INTO "roles" VALUES (3, 'buyer')`);
-
-    await queryRunner.query(`INSERT INTO "categories" ("categoriesName") VALUES ('Processors')`);
-    await queryRunner.query(`INSERT INTO "categories" ("categoriesName") VALUES ('Videocards')`);
-    await queryRunner.query(`INSERT INTO "categories" ("categoriesName") VALUES ('Mainboards')`);
-    await queryRunner.query(`INSERT INTO "categories" ("categoriesName") VALUES ('HDD')`);
-
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {

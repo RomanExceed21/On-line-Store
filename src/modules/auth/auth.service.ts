@@ -33,10 +33,13 @@ export class AuthService {
 		if (emailForCompare) {
 			throw new HttpException('Пользователь существует', HttpStatus.BAD_REQUEST)
 		}
-		const hashPassword = await bcrypt.hash(dto.password, 10);
+		const saltRounds = 10
+		const hashPassword = await bcrypt.hash(dto.password, saltRounds);
+		const userId = await this.pgClient.row(`SELECT * FROM "roles" WHERE "roleName" = 'buyer'`);
+
 		await this.pgClient.query(`
-			INSERT INTO "users" ("email", "password", "firstName", "lastName", "birhdayDate", "age") values ($1, $2, $3, $4, $5, $6)`,
-			[dto.email, hashPassword, dto.firstName, dto.lastName, dto.birhdayDate, dto.age]
+			INSERT INTO "users" ("email", "password", "firstName", "lastName", "birhdayDate", "age", "role_id") values ($1, $2, $3, $4, $5, $6, $7)`,
+			[dto.email, hashPassword, dto.firstName, dto.lastName, dto.birhdayDate, dto.age, userId[0].id]
 		)
 		const user = await this.pgClient.row(`SELECT * FROM "users" WHERE "email" = '${dto.email}'`)
 		const payload = {id: user[0].id, email: user[0].email, role: user[0].role_id};
