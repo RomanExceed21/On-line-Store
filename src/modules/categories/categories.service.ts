@@ -7,7 +7,7 @@ export class CategoriesService{
 	constructor(private pgClient: PgClient) {}
 
 	async allCategories() {
-		return this.pgClient.row(`SELECT "id" FROM "roles" WHERE "roleName" = 'buyer'`)
+		return this.pgClient.row('SELECT * FROM "categories"')
 	}
 
 	async create(dto: CreateCategoriesDto) {
