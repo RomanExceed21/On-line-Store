@@ -7,7 +7,7 @@ export class ProductsController {
 	constructor(private readonly productsService: ProductsService) {}
 
 	@Get()
-	allCategories() {
+	allProducts() {
 		return this.productsService.allProducts()
 	}
 

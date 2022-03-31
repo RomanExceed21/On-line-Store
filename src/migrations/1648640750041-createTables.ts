@@ -41,7 +41,7 @@ export class userMigration1647879443874 implements MigrationInterface {
       )`,
     );
     await queryRunner.query(
-      `CREATE TABLE "baskets" (
+      `CREATE TABLE "basckets" (
         "id" UUID NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(), 
         "user_id" UUID NOT NULL REFERENCES "users"("id"), 
         "product_id" UUID NOT NULL REFERENCES "products"("id")
@@ -50,7 +50,7 @@ export class userMigration1647879443874 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(`DROP TABLE "baskets"`);
+    await queryRunner.query(`DROP TABLE "basckets"`);
     await queryRunner.query(`DROP TABLE "users"`);
     await queryRunner.query(`DROP TABLE "roles"`);
     await queryRunner.query(`DROP TABLE "products"`);
