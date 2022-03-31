@@ -10,7 +10,7 @@ export class ProductsService {
 		return this.pgClient.row('SELECT "name", "imageUrl", "price" FROM "products"')
 	}
 
-	async oneProduct(dto: createProductDto) {
+	async getProductById(dto: createProductDto) {
 		return await this.pgClient.row(`SELECT * FROM "products" WHERE "id" = '${dto.id}'`);	
 	}
 
