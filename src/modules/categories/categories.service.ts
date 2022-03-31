@@ -25,7 +25,6 @@ export class CategoriesService{
 
 	async delete(dto: CreateCategoriesDto) {
 		await this.pgClient.query(`DELETE FROM "categories" WHERE "id" = ($1)`, [dto.id])
-		console.log(dto);
 		return this.pgClient.row('SELECT * FROM "categories"')
 	}
 

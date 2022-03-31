@@ -7,14 +7,18 @@ export class ProductsService {
 	constructor(private pgClient: PgClient) {}
 
 	async allProducts() {
-		return this.pgClient.row('SELECT * FROM "products"')
+		return this.pgClient.row('SELECT "name", "imageUrl", "price" FROM "products"')
 	}
 
-	async create(dto: createProductDto) {
-		await this.pgClient.query
-			(`INSERT INTO "products" ("name", "category_id", "description", "imageUrl", "price") VALUES ($1, $2, $3, $4, $5)`, 
+	async getProductById(dto: createProductDto) {
+		return await this.pgClient.row(`SELECT * FROM "products" WHERE "id" = '${dto.id}'`);	
+	}
+
+	async create(dto: createProductDto) {		
+		await this.pgClient.query(`
+			INSERT INTO "products" ("name", "category_id", "description", "imageUrl", "price") VALUES ($1, $2, $3, $4, $5)`, 
 			[dto.name, dto.category_id, dto.description, dto.imageUrl, dto.price])
-		return this.pgClient.row('SELECT * FROM "products"')
+		return this.pgClient.row(`SELECT * FROM "products"`)
 	}
 
 	async rename(dto: createProductDto) {
