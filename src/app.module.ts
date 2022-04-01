@@ -1,3 +1,5 @@
+import { BascketsModule } from './modules/basckets/basckets.module';
+import { OrdersModule } from './modules/orders/orders.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { CategoriesModule } from './modules/categories/categories.module';
@@ -6,7 +8,6 @@ import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DbModule } from './modules/db/db.module';
-import { ProductsController } from './modules/products/products.controller';
 import { ProductsModule } from './modules/products/products.module';
 
 @Module({
@@ -18,7 +19,9 @@ import { ProductsModule } from './modules/products/products.module';
     ProductsModule,
     CategoriesModule, 
     UsersModule,
-    AuthModule
+    AuthModule,
+    BascketsModule,
+    OrdersModule
   ],
   controllers: [AppController],
   providers: [AppService],
