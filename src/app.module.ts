@@ -1,3 +1,4 @@
+import { BascketsModule } from './modules/basckets/basckets.module';
 import { OrdersModule } from './modules/orders/orders.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
@@ -19,6 +20,7 @@ import { ProductsModule } from './modules/products/products.module';
     CategoriesModule, 
     UsersModule,
     AuthModule,
+    BascketsModule,
     OrdersModule
   ],
   controllers: [AppController],

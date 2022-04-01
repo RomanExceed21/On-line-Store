@@ -45,7 +45,7 @@ export class userMigration1647879443874 implements MigrationInterface {
         "id" UUID NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(), 
         "user_id" UUID NOT NULL REFERENCES "users"("id"), 
         "product_id" UUID NOT NULL REFERENCES "products"("id"),
-        "numberOfProducts" INT NOT NULL
+        "numberOfProducts" INT NOT NULL DEFAULT 0
       )`,
     );
   }
