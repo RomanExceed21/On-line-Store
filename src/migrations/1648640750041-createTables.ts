@@ -44,7 +44,8 @@ export class userMigration1647879443874 implements MigrationInterface {
       `CREATE TABLE "basckets" (
         "id" UUID NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(), 
         "user_id" UUID NOT NULL REFERENCES "users"("id"), 
-        "product_id" UUID NOT NULL REFERENCES "products"("id")
+        "product_id" UUID NOT NULL REFERENCES "products"("id"),
+        "numberOfProducts" INT NOT NULL
       )`,
     );
   }
