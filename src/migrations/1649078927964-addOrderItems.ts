@@ -9,7 +9,7 @@ export class addOrderItems1649078927964 implements MigrationInterface {
                 "id" UUID NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(), 
                 "order_id" UUID REFERENCES "orders"("id"),
                 "product_id" UUID REFERENCES "products"("id"),
-                quantityOfProducts INT
+                "quantityOfProducts" INT
             )`,
         );
     }
