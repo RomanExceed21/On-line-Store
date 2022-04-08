@@ -7,6 +7,7 @@ export class OrdersService {
 	constructor(private pgClient: PgClient) {}
 
 	async createOrder(dto: CreateOrderDto) {
+		await this.pgClient.query(`BEGIN`);
 		const newOrder = await this.pgClient.query(`
 			INSERT INTO "orders" 
 			("user_id", "status") 
@@ -33,11 +34,9 @@ export class OrdersService {
 		);
 
 		const insertedData = await this.pgClient.query(insertOrderItems);	
-
 		const deleteData: any = await this.pgClient.row(`SELECT "product_id" FROM "orderItems" WHERE "order_id" = '${orderId}'`)
-
 		const transformDeletedData = deleteData.map(e => Object.values(e));
-		
+
 		const resDeleteDataForRequest = transformDeletedData.reduce((result, delElement) => {
 			result = [...result, ...delElement];
 			return result
@@ -50,7 +49,7 @@ export class OrdersService {
 		);
 
 		const deletedData = await this.pgClient.query(deleteBasketProducts);	
-		
+		await this.pgClient.query(`COMMIT`);
 		return insertedData.rows
 	}
 }
