@@ -6,6 +6,14 @@ import * as format from 'pg-format';
 export class OrdersService {
 	constructor(private pgClient: PgClient) {}
 
+	async getUserOrders(dto: CreateOrderDto) {
+		return this.pgClient.row(`
+			SELECT "order_id", "status", "created_at", "product_id", "quantityOfProducts", "totalPrice" 
+			FROM "orders" o JOIN "orderItems" oi ON o.id = oi.order_id
+			WHERE "user_id" = ('${dto.user_id}')
+		`);
+	}
+
 	async createOrder(dto: CreateOrderDto) {
 		await this.pgClient.query(`BEGIN`);
 		const newOrder = await this.pgClient.query(`
@@ -15,7 +23,6 @@ export class OrdersService {
 			[dto.user_id, dto.status]);
 			const orderId = await newOrder.rows[0].id;
 		
-	
 		const orderItemFields: any = await this.pgClient.row(`SELECT 
 			(SELECT "id" AS "order_id" FROM "orders" WHERE "id" = '${orderId}'), 
 			"product_id", 
