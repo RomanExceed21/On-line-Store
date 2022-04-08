@@ -1,6 +1,7 @@
+import { UpdateUserOrderDto } from './dto/updateOrderStatus.dto';
 import { CreateOrderDto } from './dto/orders.dto';
 import { OrdersService } from './orders.service';
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Put } from '@nestjs/common';
 
 @Controller('orders')
 export class OrdersController {
@@ -14,6 +15,11 @@ export class OrdersController {
 	@Get('userOrders')
 	getUserOrders(@Query() orderDto: CreateOrderDto) {
 		return this.ordersService.getUserOrders(orderDto)
+	}
+
+	@Put('changeOrderStatus')
+	changeOrderStatus(@Body() orderDto: UpdateUserOrderDto) {
+		return this.ordersService.changeOrderStatus(orderDto)
 	}
 
 }

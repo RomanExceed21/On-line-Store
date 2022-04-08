@@ -1,3 +1,4 @@
+import { UpdateUserOrderDto } from './dto/updateOrderStatus.dto';
 import { CreateOrderDto } from './dto/orders.dto';
 import { PgClient } from './../db/db.service';
 import { Injectable } from '@nestjs/common';
@@ -8,7 +9,7 @@ export class OrdersService {
 
 	async getUserOrders(dto: CreateOrderDto) {
 		return this.pgClient.row(`
-			SELECT "order_id", "status", "created_at", "product_id", "quantityOfProducts", "totalPrice" 
+			SELECT "order_id", "status", "created_at", "updated_at", "product_id", "quantityOfProducts", "totalPrice" 
 			FROM "orders" o JOIN "orderItems" oi ON o.id = oi.order_id
 			WHERE "user_id" = ('${dto.user_id}')
 		`);
@@ -58,5 +59,12 @@ export class OrdersService {
 		const deletedData = await this.pgClient.query(deleteBasketProducts);	
 		await this.pgClient.query(`COMMIT`);
 		return insertedData.rows
+	}
+
+	async changeOrderStatus(dto: UpdateUserOrderDto) {
+		this.pgClient.query(`UPDATE "orders" SET "status" = ($1) WHERE "id" = ($2)`, [dto.status, dto.id])
+		this.pgClient.query(`UPDATE "orders" SET "updated_at" = NOW() WHERE "id" = ($1)`, [dto.id])
+
+		return this.pgClient.row(`SELECT * FROM "orders" WHERE "id" = '${dto.id}'`)
 	}
 }
