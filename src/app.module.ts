@@ -1,3 +1,4 @@
+import { SuperadminModule } from './modules/superadmin/superadmin.module';
 import { BascketsModule } from './modules/basckets/basckets.module';
 import { OrdersModule } from './modules/orders/orders.module';
 import { AuthModule } from './modules/auth/auth.module';
@@ -21,7 +22,8 @@ import { ProductsModule } from './modules/products/products.module';
     UsersModule,
     AuthModule,
     BascketsModule,
-    OrdersModule
+    OrdersModule,
+    SuperadminModule
   ],
   controllers: [AppController],
   providers: [AppService],
