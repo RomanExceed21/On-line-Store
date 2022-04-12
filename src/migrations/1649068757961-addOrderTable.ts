@@ -8,7 +8,7 @@ export class addOrderTable1649068757961 implements MigrationInterface {
     await queryRunner.query(
       `CREATE TABLE "orders" (
         "id" UUID NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(), 
-        "user_id" VARCHAR NOT NULL,
+        "user_id" VARCHAR NOT NULL REFERENCES "users"("id"),
         "status" VARCHAR NOT NULL,
         "created_at" DATE NOT NULL DEFAULT NOW()
       )`,
