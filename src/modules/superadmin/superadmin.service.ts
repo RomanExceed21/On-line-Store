@@ -21,8 +21,13 @@ export class SuperadminService {
 		if (emailForCompare) {
 			throw new HttpException('Админ с таким email существует', HttpStatus.BAD_REQUEST)
 		}
+		
+		if (!dto.email || !dto.password || !dto.role_id) {
+			throw new HttpException('Необходимо указать все данные', HttpStatus.BAD_REQUEST)
+		}
+		
 		const saltRounds = 10;
-		const hashPassword = await bcrypt.hash(dto.password, saltRounds)
+		const hashPassword = await bcrypt.hash(dto.password, saltRounds);
 		this.pgClient.query(`
 			INSERT INTO "users" ("email", "password", "firstName", "lastName", "birhdayDate", "age", "role_id")
 			VALUES($1, $2, $3, $4, $5, $6, $7)
